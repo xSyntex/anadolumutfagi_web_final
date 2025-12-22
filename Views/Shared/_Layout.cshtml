@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Anadolu Mutfağı</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'Lato', sans-serif;
+        }
+        h1, h2, h3, h4, h5, .navbar-brand {
+            font-family: 'Playfair Display', serif;
+        }
+        .navbar {
+            background-color: #000 !important;
+            border-bottom: 2px solid #d4af37;
+        }
+        .navbar-brand, .nav-link {
+            color: #d4af37 !important;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .nav-link:hover {
+            color: #fff !important;
+        }
+        .btn-gold {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            background-color: #b3922b;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .card {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: #d4af37;
+        }
+        .card-title {
+            color: #d4af37;
+        }
+        footer {
+            background-color: #000;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+        .table {
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-utensils"></i> Anadolu Mutfağı</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Menu" asp-action="PublicMenu">Menü</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">Hakkımızda</a>
+                        </li>
+@using Web_Programlama_Proje.Infrastructure
+@using Web_Programlama_Proje.Models
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            @{
+                                var sessionCart = Context.Session.GetJson<Cart>("Cart");
+                                var count = sessionCart?.Items.Sum(x => x.Quantity) ?? 0;
+                            }
+                            <a class="nav-link position-relative" asp-area="" asp-controller="Cart" asp-action="Index">
+                                <i class="fas fa-shopping-cart"></i> Sepetim
+                                @if(count > 0)
+                                {
+                                    <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger border border-light" style="font-size: 0.6rem;">
+                                        @count
+                                        <span class="visually-hidden">ürün</span>
+                                    </span>
+                                }
+                            </a>
+                        </li>
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-warning" asp-area="" asp-controller="Order" asp-action="Index">
+                                    <i class="fas fa-history"></i> Siparişlerim
+                                </a>
+                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger" asp-area="" asp-controller="Menu" asp-action="Index" title="Yönetim Paneli">
+                                        <i class="fas fa-tools"></i> Panel
+                                    </a>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login"><i class="fas fa-user-shield"></i> Giriş</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted mt-5 py-3">
+        <div class="container text-center">
+            &copy; 2025 - Anadolu Mutfağı - <span class="text-warning">Web Programlama Projesi</span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

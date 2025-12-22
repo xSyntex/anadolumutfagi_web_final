@@ -1,0 +1,46 @@
+@model Web_Programlama_Proje.Models.User
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card bg-dark border-warning shadow-lg">
+            <div class="card-header bg-transparent border-warning text-center">
+                <h3 class="text-warning mb-0"><i class="fas fa-user-plus"></i> Kayıt Ol</h3>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-light">Ad Soyad</label>
+                        <input asp-for="Username" type="text" class="form-control" required placeholder="Adınız Soyadınız" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-light">E-Posta</label>
+                        <input asp-for="Email" type="email" class="form-control" required placeholder="ornek@email.com" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-light">Şifre</label>
+                        <input asp-for="Password" type="password" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-light">Adres</label>
+                        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-gold btn-lg">Kayıt Ol</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-transparent border-warning text-center">
+                <span class="text-light">Zaten hesabınız var mı? </span>
+                <a asp-action="Login" class="text-warning fw-bold text-decoration-none">Giriş Yap</a>
+            </div>
+        </div>
+    </div>
+</div>

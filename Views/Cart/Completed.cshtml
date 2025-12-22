@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Sipariş Alındı";
+}
+
+<div class="text-center mt-5">
+    <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+    <h2 class="text-warning">Siparişiniz Alındı!</h2>
+    <p class="lead text-light">Bizi tercih ettiğiniz için teşekkür ederiz.</p>
+    <div class="mt-4">
+        <a asp-controller="Order" asp-action="Index" class="btn btn-gold btn-lg">Siparişlerimi Gör</a>
+        <a asp-controller="Menu" asp-action="PublicMenu" class="btn btn-outline-light btn-lg ms-3">Alışverişe Devam Et</a>
+    </div>
+</div>
