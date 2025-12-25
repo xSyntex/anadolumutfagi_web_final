@@ -39,6 +39,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseSession(); // Session middleware eklendi (Routing'den önce olmalı)
+
+// DİL VE KÜLTÜR AYARLARI (ZORUNLU TR-TR)
+var supportedCultures = new[] { "tr-TR" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("tr-TR")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
+
 app.UseRouting();
 
 app.UseAuthentication();
