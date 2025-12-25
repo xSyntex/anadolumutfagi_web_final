@@ -1,0 +1,6 @@
+bin/
+obj/
+.vscode/
+.git/
+*.user
+Web_Proje_Son_Teslim/
